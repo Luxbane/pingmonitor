@@ -1,0 +1,127 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 15s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+
+rule_files:
+
+scrape_configs:
+  # 🔧 PROMETHEUS ITSELF
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+        labels:
+          app: "prometheus"
+
+  # 🌐 BLACKBOX ICMP (PING)
+  - job_name: "blackbox-icmp"
+    metrics_path: /probe
+    params:
+      module: [icmp]
+
+    static_configs:
+      # 🌍 INTERNET (GLOBAL DNS)
+      - targets: ["1.1.1.1"]
+        labels:
+          name: "Cloudflare"
+          type: "internet"
+
+      - targets: ["8.8.8.8"]
+        labels:
+          name: "Google"
+          type: "internet"
+
+      # 🌏 AWS REGION (SG)
+      # NOTE: kalau ICMP gagal, lihat job HTTP di bawah
+      - targets: ["ec2.ap-southeast-1.amazonaws.com"]
+        labels:
+          name: "AWS Singapore (EC2)"
+          type: "internet"
+
+      # 🏠 LOCAL NETWORK
+      - targets: ["192.168.1.1"]
+        labels:
+          name: "Modem"
+          type: "local"
+
+      - targets: ["192.168.1.3"]
+        labels:
+          name: "Huawei BE3"
+          type: "local"
+
+      - targets: ["192.168.1.4"]
+        labels:
+          name: "Mercusys MR70X"
+          type: "local"
+
+      # 🎮 GAME SERVER
+      - targets: ["8.209.222.121"]
+        labels:
+          name: "Genshin Impact - Representative Endpoint (JP)"
+          type: "game"
+
+
+      - targets: ["47.245.61.123"]
+        labels:
+          name: "Honkai Star Rail - Gameplay Session (JP)"
+          type: "game"
+
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+
+      - source_labels: [__param_target]
+        target_label: instance
+
+      - target_label: __address__
+        replacement: localhost:9115
+
+  # 🌐 BLACKBOX HTTP (REAL SERVICE CHECK)
+  - job_name: "blackbox-http"
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+
+    static_configs:
+
+      - targets:
+          - https://chatgpt.com/auth
+        labels:
+          name: "ChatGPT"
+          type: "internet"
+
+      - targets:
+          - https://google.com
+        labels:
+          name: "Google HTTPS"
+          type: "internet"
+
+      - targets:
+          - https://youtube.com
+        labels:
+          name: "YouTube"
+          type: "internet"
+
+      - targets:
+          - https://ec2.ap-southeast-1.amazonaws.com
+        labels:
+          name: "AWS SG HTTP"
+          type: "internet"
+
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+
+      - source_labels: [__param_target]
+        target_label: instance
+
+      - target_label: __address__
+        replacement: localhost:9115
+
+  - job_name: "dns_custom"
+    static_configs:
+      - targets: ["localhost:8000"]
