@@ -17,7 +17,7 @@ A real-time network monitoring system built using Prometheus, Grafana, and Black
 - GitHub Pages
 
 ## 🌐 Live Demo
-https://sparxiconofc.github.io/pingmonitor/
+https://luxbane.github.io/pingmonitor/
 
 ## ⚠️ Notes
 The dashboard is hosted on a limited runtime environment, so availability is not guaranteed at all times.
