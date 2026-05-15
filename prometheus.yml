@@ -42,21 +42,7 @@ scrape_configs:
           name: "AWS Singapore (EC2)"
           type: "internet"
 
-      # 🏠 LOCAL NETWORK
-      - targets: ["192.168.1.1"]
-        labels:
-          name: "Modem"
-          type: "local"
-
-      - targets: ["192.168.1.3"]
-        labels:
-          name: "Huawei BE3"
-          type: "local"
-
-      - targets: ["192.168.1.4"]
-        labels:
-          name: "Mercusys MR70X"
-          type: "local"
+      #"
 
       # 🎮 GAME SERVER
       - targets: ["8.209.222.121"]
