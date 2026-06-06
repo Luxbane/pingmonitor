@@ -36,7 +36,6 @@ scrape_configs:
           type: "internet"
 
       # 🌏 AWS REGION (SG)
-      # NOTE: kalau ICMP gagal, lihat job HTTP di bawah
       - targets: ["ec2.ap-southeast-1.amazonaws.com"]
         labels:
           name: "AWS Singapore (EC2)"
