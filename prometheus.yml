@@ -35,14 +35,6 @@ scrape_configs:
           name: "Google"
           type: "internet"
 
-      # 🌏 AWS REGION (SG)
-      - targets: ["ec2.ap-southeast-1.amazonaws.com"]
-        labels:
-          name: "AWS Singapore (EC2)"
-          type: "internet"
-
-      #"
-
       # 🎮 GAME SERVER
       - targets: ["8.209.222.121"]
         labels:
@@ -74,12 +66,6 @@ scrape_configs:
     static_configs:
 
       - targets:
-          - https://chatgpt.com/auth
-        labels:
-          name: "ChatGPT"
-          type: "internet"
-
-      - targets:
           - https://google.com
         labels:
           name: "Google HTTPS"
@@ -89,12 +75,6 @@ scrape_configs:
           - https://youtube.com
         labels:
           name: "YouTube"
-          type: "internet"
-
-      - targets:
-          - https://ec2.ap-southeast-1.amazonaws.com
-        labels:
-          name: "AWS SG HTTP"
           type: "internet"
 
     relabel_configs:

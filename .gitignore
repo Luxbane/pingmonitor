@@ -1,0 +1,10 @@
+# Windows
+desktop.ini
+
+# Local installations
+grafana/
+blackbox/
+prometheus/
+
+# Logs
+*.log
